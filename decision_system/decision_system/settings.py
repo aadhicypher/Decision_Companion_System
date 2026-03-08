@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-f!pmffbp_sym16z)oh+vb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['decision-campanion-system.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['decision-campanion-system.onrender.com', 'localhost', '127.0.0.1','decisioncampanionsystem-production.up.railway.app',]
 
 
 # Application definition
