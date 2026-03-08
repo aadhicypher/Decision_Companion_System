@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
 ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://decisioncampanionsystem-production.up.railway.app',
+    'https://decision-campanion-system.onrender.com',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
