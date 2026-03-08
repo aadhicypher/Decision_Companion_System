@@ -5,3 +5,4 @@ gunicorn
 requests
 psycopg2-binary
 dj-database-url
+mysqlclient==2.2.8

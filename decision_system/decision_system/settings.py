@@ -99,7 +99,7 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('postgresql://postgres:DbxaVtczVftezmQmvKgHuladmEobHGLI@switchyard.proxy.rlwy.net:48422/railway')
+        default=os.environ.get('DATABASE_URL')
     )
 }
 
