@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f!pmffbp_sym16z)oh+vbpyg+@+v$!j)hyiy6%=bc3oqqa+^qs'
-
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-f!pmffbp_sym16z)oh+vbpyg+@+v$!j)hyiy6%=bc3oqqa+^qs')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['decision-campanion-system.onrender.com', 'localhost', '127.0.0.1']
 
@@ -89,15 +91,12 @@ PASSWORD_RESET_TIMEOUT = 3600*24  # 24 hours
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'decision_companion',
-        'USER': 'root',
-        'PASSWORD': 'Adithyan@5',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('postgresql://decision_user:sBjlOBw0vx1171j3riCo83IDqH4IkEeo@dpg-d6mlcu75gffc73bhjlag-a/decision_system_db')
+    )
 }
 
 
