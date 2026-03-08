@@ -38,7 +38,7 @@ staticfiles/
 # IDE
 .vscode/
 .idea/
-
+.env/
 # OS
 .DS_Store
 Thumbs.db

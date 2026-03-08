@@ -1,6 +1,0 @@
-Date-23-02-2026
-Google
-Decision Helper System 
-Found out about " Qlik(https://www.qlik.com/us/business-intelligence/decision-support-system) "-Decision Support System (DSS) is analytics software used to gather and analyze data to help inform and improve business decision-making. It highlights that DSS tools, including modern BI with real-time analytics and AI, support timely problem solving and efficient planning by turning data into actionable insights.
-
-This was analytical tool used for making decisions based on interactions 

@@ -45,6 +45,7 @@
         min-height: 72px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     .site-header a {
@@ -52,6 +53,22 @@
         text-decoration: none;
         font-size: 1.6rem;
         font-weight: 700;
+    }
+
+    .header-logout {
+        display: inline-block;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        background: var(--primary-color);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .header-logout:hover {
+        background: var(--primary-dark);
     }
 
     .page-shell {
@@ -211,6 +228,9 @@
 <header class="site-header">
     <div class="site-header-inner">
         <a href="{% url 'home_page' %}">Decide</a>
+        <a href="{% url 'logout' %}">
+            <button type="button" class="header-logout">Logout</button>
+        </a>
     </div>
 </header>
 <main class="page-shell">
