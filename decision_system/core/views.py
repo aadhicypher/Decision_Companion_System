@@ -5,7 +5,7 @@ from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
+from .forms import SignupForm
 from .models import (
     Category,
     SubCategory,
@@ -104,9 +105,6 @@ def _clear_password_reset_session(request):
 
 
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect("home_page")
-
     form = AuthenticationForm(request, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         login(request, form.get_user())
@@ -237,17 +235,14 @@ def reset_password_view(request):
 
 def signup(request):
     """User signup view"""
-    if request.user.is_authenticated:
-        return redirect("decision_form")
-    
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             messages.success(request, "Account created successfully! Please log in.")
             return redirect("login")
     else:
-        form = UserCreationForm()
+        form = SignupForm()
     
     return render(request, "registration/signup.html", {"form": form})
 
@@ -632,8 +627,12 @@ def questions_page(request):
 
             explanation = response.text
 
-        except Exception as e:
-            explanation = f"AI explanation unavailable: {str(e)}"
+        except Exception:
+            explanation = (
+                f"Why is {best_option.name} the best option? "
+                f"{best_option.name} scored highest overall with {results[best_option] * 100:.1f}%. "
+                f"It performed strongly across the weighted criteria for this decision."
+            )
 
         # ------------------------------
         # SAVE RESULT
