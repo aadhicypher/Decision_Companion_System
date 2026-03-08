@@ -95,7 +95,7 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('postgresql://decision_user:sBjlOBw0vx1171j3riCo83IDqH4IkEeo@dpg-d6mlcu75gffc73bhjlag-a/decision_system_db')
+        default=os.environ.get('postgresql://postgres:DbxaVtczVftezmQmvKgHuladmEobHGLI@switchyard.proxy.rlwy.net:48422/railway')
     )
 }
 
