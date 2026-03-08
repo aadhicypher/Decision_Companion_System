@@ -228,7 +228,7 @@ Users can add criteria that aren't in the template during a session. These are s
 ### The Formula
 
 ```
-Final Score(option) = Σ [ (score_ij / 5) × (priority_j / total_priority) ]
+Final Score(option) = Σ [ (score_ij / 100) × (priority_j / total_priority) ]
 ```
 
 Where:
@@ -247,14 +247,14 @@ Where:
 
 **Option A:**
 ```
-(4/5 × 40/100) + (3/5 × 35/100) + (5/5 × 25/100)
+(80/100 × 40/100) + (60/100 × 35/100) + (100/100 × 25/100)
 = 0.32 + 0.21 + 0.25
 = 0.78 → displayed as 78%
 ```
 
 **Option B:**
 ```
-(2/5 × 40/100) + (5/5 × 35/100) + (4/5 × 25/100)
+(40/100 × 40/100) + (100/100 × 35/100) + (80/100 × 25/100)
 = 0.16 + 0.35 + 0.20
 = 0.71 → displayed as 71%
 ```
@@ -339,11 +339,18 @@ Create a `.env` file in the project root:
 GEMINI_API_KEY=your_gemini_api_key_here
 SECRET_KEY=your_django_secret_key_here
 DEBUG=True
-DB_NAME=decision_system
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_HOST=localhost
-DB_PORT=3306
+DATABASE_URL=mysql://root:yourpassword@localhost:3306/db_name
+```
+
+And in Railway's **Variables** tab put your PostgreSQL URL:
+```
+DATABASE_URL=postgresql://postgres:DbxaVtczVftezmQmvKgHuladmEobHGLI@switchyard.proxy.rlwy.net:48422/railway
+```
+
+Also add `mysqlclient` back to `requirements.txt` since you need it for local MySQL:
+```
+mysqlclient
+psycopg2-binary
 ```
 
 > **Note:** If you don't have a Gemini API key the system still works — it falls back to generic questions automatically.
@@ -351,11 +358,10 @@ DB_PORT=3306
 > **SQLite alternative:** To skip MySQL setup during development, change `settings.py`:
 > ```python
 > DATABASES = {
->     'default': {
->         'ENGINE': 'django.db.backends.sqlite3',
->         'NAME': BASE_DIR / 'db.sqlite3',
->     }
-> }
+>   'default': dj_database_url.config(
+>       default=os.environ.get('DATABASE_URL')
+>   )
+>}
 > ```
 
 ---
@@ -398,15 +404,8 @@ Initial decision tree inserted successfully!
 
 ---
 
-### Step 8 — Create a Superuser
 
-```bash
-python manage.py createsuperuser
-```
-
----
-
-### Step 9 — Start the Server
+### Step 8 — Start the Server
 
 ```bash
 python manage.py runserver
@@ -420,7 +419,7 @@ python manage.py runserver
 
 ---
 
-### Step 10 — Using the System
+### Step 9 — Using the System
 
 1. **Register / Log In** — create a user account
 2. **Create a Decision** — select a category and subcategory, enter the options you want to compare
