@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Decide</title>
+    <link rel="icon" href="data:,">
 <style>
     :root {
         --primary-color: #3b82f6;
@@ -220,6 +221,50 @@
         font-weight: 700;
     }
 
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.25rem 0;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .divider span {
+        padding: 0 0.75rem;
+    }
+
+    .google-btn {
+        display: inline-flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        padding: 0.9rem 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--gray-300);
+        background: #10192a;
+        color: var(--text-primary);
+        font-weight: 700;
+        text-decoration: none;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .google-btn:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+
+    .google-btn:active {
+        transform: translateY(0);
+    }
+
     @media (max-width: 768px) {
         .login-wrapper {
             padding: 1.5rem;
@@ -280,17 +325,26 @@
             <button type="submit">Sign In</button>
         </form>
 
+        {% if google_login_enabled %}
+            {% load socialaccount %}
+            <div class="divider"><span>or</span></div>
+            <a class="google-btn" href="{% provider_login_url 'google' %}">
+                Continue with Google
+            </a>
+        {% else %}
+            <p class="help-text">Google sign-in is currently unavailable. Ask admin to configure Google OAuth credentials.</p>
+        {% endif %}
+
         <div class="auth-links">
-            <a href="{% url 'forgot_password' %}">🔑 Forgot Password?</a>
-            <a href="{% url 'signup' %}">Create Account →</a>
+            <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+            <a href="{% url 'signup' %}">Create Account -&gt;</a>
         </div>
 
-        <div class="signup-link">
-            Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>
-        </div>
+       
     </div>
 </div>
 </main>
 </body>
 </html>
+
 
