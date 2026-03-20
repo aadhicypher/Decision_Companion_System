@@ -71,6 +71,22 @@
         background: var(--primary-dark);
     }
 
+    .header-login {
+        display: inline-block;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        background: var(--primary-color);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .header-login:hover {
+        background: var(--primary-dark);
+    }
+
     .page-shell {
         padding-top: 2.25rem;
         padding-bottom: 3rem;
@@ -197,6 +213,62 @@
         margin-top: 0;
     }
 
+    .guest-card {
+        max-width: 780px;
+        margin: 5rem auto;
+        padding: 2.25rem;
+        text-align: center;
+    }
+
+    .guest-card h2 {
+        margin-bottom: 0.75rem;
+        font-size: 2rem;
+    }
+
+    .guest-card p {
+        margin-bottom: 1.5rem;
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+    }
+
+    .guest-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .guest-actions a {
+        text-decoration: none;
+    }
+
+    .guest-actions button {
+        min-width: 210px;
+        padding: 0.95rem 1.2rem;
+        font-size: 1rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .guest-actions .btn-login {
+        background: var(--primary-color);
+    }
+
+    .guest-actions .btn-login:hover {
+        background: var(--primary-dark);
+    }
+
+    .guest-actions .btn-signup {
+        background: var(--success-color);
+    }
+
+    .guest-actions .btn-signup:hover {
+        background: #0a8f66;
+    }
+
     @media (max-width: 768px) {
         .site-header-inner,
         .page-shell {
@@ -228,42 +300,61 @@
 <header class="site-header">
     <div class="site-header-inner">
         <a href="{% url 'home_page' %}">Decide</a>
-        <a href="{% url 'logout' %}">
-            <button type="button" class="header-logout">Logout</button>
-        </a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">
+                <button type="button" class="header-logout">Logout</button>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}">
+                <button type="button" class="header-login">Login</button>
+            </a>
+        {% endif %}
     </div>
 </header>
 <main class="page-shell">
-<div class="home-layout-wrapper">
-    <div class="home-layout">
-        <div class="sidebar card">
-            <a href="{% url 'decision_form' %}">
-                <button type="button" class="new-decision">Make Decision</button>
-            </a>
+{% if user.is_authenticated %}
+    <div class="home-layout-wrapper">
+        <div class="home-layout">
+            <div class="sidebar card">
+                
 
-            <h3>Recent Decisions</h3>
-            {% if decisions %}
-                <div class="history-list">
-                    {% for decision in decisions %}
-                        <a class="history-item" href="{% url 'decision_history' decision.id %}">
-                            {{ decision.context }}
-                        </a>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="empty-state">No decisions yet. Create one to get started.</p>
-            {% endif %}
-        </div>
+                <h3>Recent Decisions</h3>
+                {% if decisions %}
+                    <div class="history-list">
+                        {% for decision in decisions %}
+                            <a class="history-item" href="{% url 'decision_history' decision.id %}">
+                                {{ decision.context }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="empty-state">No decisions yet. Create one to get started.</p>
+                {% endif %}
+            </div>
 
-        <div class="main-panel card">
-            <h2>Decision Companion</h2>
-            <p>Start a new decision or open any item in your recent history.</p>
-            <a class="cta-link" href="{% url 'decision_form' %}">
-                <button type="button">Make Decision</button>
-            </a>
+            <div class="main-panel card">
+                <h2>Decision Companion</h2>
+                <p>Start a new decision or open any item in your recent history.</p>
+                <a class="cta-link" href="{% url 'decision_form' %}">
+                    <button type="button">Make Decision</button>
+                </a>
+            </div>
         </div>
     </div>
-</div>
+{% else %}
+    <section class="guest-card card">
+        <h2>Decision Companion</h2>
+        <p>You are on the home page. Do you want to log in to start making decisions?</p>
+        <div class="guest-actions">
+            <a href="{% url 'login' %}">
+                <button type="button" class="btn-login">Yes, Login</button>
+            </a>
+            <a href="{% url 'signup' %}">
+                <button type="button" class="btn-signup">Create Account</button>
+            </a>
+        </div>
+    </section>
+{% endif %}
 </main>
 </body>
 </html>

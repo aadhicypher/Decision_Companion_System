@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Decide</title>
+    <link rel="icon" href="data:,">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --success-color: #10b981;
+            --bg-900: #070c16;
+            --bg-800: #0b1220;
+            --bg-700: #13213a;
+            --panel: rgba(15, 24, 40, 0.94);
+            --border: #273449;
+            --text-primary: #dbe7fb;
+            --text-secondary: #9db0cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-primary);
+            background: radial-gradient(circle at top left, var(--bg-700) 0%, var(--bg-800) 45%, var(--bg-900) 100%);
+            min-height: 100vh;
+        }
+
+        .shell {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 3rem;
+        }
+
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #c8dcff;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2.5rem;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 1.8rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .actions a {
+            text-decoration: none;
+        }
+
+        .actions button {
+            min-width: 220px;
+            border: none;
+            border-radius: 10px;
+            padding: 0.95rem 1.2rem;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-login {
+            background: var(--primary-color);
+        }
+
+        .btn-login:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-signup {
+            background: var(--success-color);
+        }
+
+        .btn-signup:hover {
+            background: #0a8f66;
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <a class="brand" href="{% url 'root' %}">Decide</a>
+        <section class="card">
+            <h1>Welcome to Decision Companion</h1>
+            <p>To use the website features, please log in first. New users can create an account to continue.</p>
+            <div class="actions">
+                <a href="{% url 'login' %}">
+                    <button type="button" class="btn-login">Login</button>
+                </a>
+                <a href="{% url 'signup' %}">
+                    <button type="button" class="btn-signup">Create Account</button>
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

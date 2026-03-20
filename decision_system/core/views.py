@@ -31,15 +31,41 @@ PASSWORD_RESET_USER_SESSION_KEY = "password_reset_user_id"
 PASSWORD_RESET_VERIFIED_SESSION_KEY = "password_reset_verified"
 
 
+def _is_google_login_enabled():
+    """Enable Google login only when a provider app is configured."""
+    if os.getenv("GOOGLE_CLIENT_ID") and os.getenv("GOOGLE_CLIENT_SECRET"):
+        return True
+
+    configured_client = getattr(settings, "GOOGLE_CLIENT_ID", None)
+    configured_secret = getattr(settings, "GOOGLE_CLIENT_SECRET", None)
+    if configured_client and configured_secret:
+        return True
+
+    try:
+        from allauth.socialaccount.models import SocialApp
+
+        site_id = getattr(settings, "SITE_ID", None)
+        apps = SocialApp.objects.filter(provider="google")
+        if site_id:
+            return apps.filter(sites__id=site_id).exists()
+        return apps.exists()
+    except Exception:
+        return False
+
+
 def _is_other_category(category):
     if not category:
         return False
     normalized = category.name.strip().lower()
     return normalized in {"other", "other decision"}
 
+def landing_page(request):
+    if request.user.is_authenticated:
+        return redirect("home_page")
+    return render(request, "core/landing_page.html")
+
 @login_required
 def home_page(request):
-
     decisions = Decision.objects.filter(
         user=request.user
     ).order_by("-id")
@@ -105,12 +131,18 @@ def _clear_password_reset_session(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("home_page")
+
     form = AuthenticationForm(request, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         login(request, form.get_user())
         return redirect("home_page")
 
-    return render(request, "registration/login.html", {"form": form})
+    return render(request, "registration/login.html", {
+        "form": form,
+        "google_login_enabled": _is_google_login_enabled(),
+    })
 
 
 def logout_view(request):
