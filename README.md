@@ -232,7 +232,7 @@ Final Score(option) = Σ [ (score_ij / 100) × (priority_j / total_priority) ]
 ```
 
 Where:
-- `score_ij` = user's rating (1–5) of option `i` on criterion `j`
+- `score_ij` = user's rating (1–100) of option `i` on criterion `j`
 - `priority_j` = importance weight assigned to criterion `j` (0–100)
 - `total_priority` = sum of all criterion priorities (auto-normalized)
 
@@ -240,9 +240,9 @@ Where:
 
 | Criterion | Priority | Option A Score | Option B Score |
 |-----------|----------|----------------|----------------|
-| Cost Efficiency | 40 | 4 | 2 |
-| Performance | 35 | 3 | 5 |
-| Build Quality | 25 | 5 | 4 |
+| Cost Efficiency | 40 | 40 | 20 |
+| Performance | 35 | 30 | 50 |
+| Build Quality | 25 | 50 | 40|
 | **Total Priority** | **100** | | |
 
 **Option A:**
@@ -487,7 +487,7 @@ Decision
   ├── Option
   │     id, name, decision_id (FK)
   │     └── Score
-  │           id, option_id (FK), criterion_id (FK), value (1–5)
+  │           id, option_id (FK), criterion_id (FK), value (1–100)
   │
   ├── Criterion                        ← copied per decision (user-editable)
   │     id, name, weight, is_positive, decision_id (FK)
