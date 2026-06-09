@@ -342,10 +342,7 @@ DEBUG=True
 DATABASE_URL=mysql://root:yourpassword@localhost:3306/db_name
 ```
 
-And in Railway's **Variables** tab put your PostgreSQL URL:
-```
-DATABASE_URL=postgresql://postgres:DbxaVtczVftezmQmvKgHuladmEobHGLI@switchyard.proxy.rlwy.net:48422/railway
-```
+
 
 Also add `mysqlclient` back to `requirements.txt` since you need it for local MySQL:
 ```
