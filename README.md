@@ -1,6 +1,6 @@
 # Decision Companion System
 
-> A multi-criteria decision tool that helps users compare options using weighted scoring — with AI-generated explanations powered by Gemini. Built with Python, Django, and MySQL.
+> A multi-criteria decision tool that helps users compare options using weighted scoring — with AI-generated explanations powered by Gemini. Built with Python, Django, and postgreSql.
 
 ---
 
@@ -155,7 +155,7 @@ Originally weights were stored as floats like `1.0`, `1.5`. Changed to integers 
 │  Score(option) = Σ[(s/100)×(p/100)]      │
 │  Priority dominance check               │
 │  Conflict resolution rule               │
-│  Result stored in MySQL                 │
+│  Result stored in postgresql                 │
 └────────────────┬────────────────────────┘
                  │
 ┌────────────────▼────────────────────────┐
@@ -222,7 +222,7 @@ The system works fully without any AI. If Gemini fails (quota exceeded, network 
 
 ### Positive Criteria Phrasing
 
-All criteria are phrased positively — "Cost Efficiency" not "Cost", "Ease of Maintenance" not "Maintenance Complexity". If you ask someone to "Rate the Cost (1–5)" they don't know if 5 means expensive (bad) or cheap (good). By rephrasing, 5 always means good across every criterion. No score inversion needed in the engine.
+All criteria are phrased positively — "Cost Efficiency" not "Cost", "Ease of Maintenance" not "Maintenance Complexity". If you ask someone to "Rate the Cost (1–100)" they don't know if 100 means expensive (bad) or cheap (good). By rephrasing, 100 always means good across every criterion. No score inversion needed in the engine.
 
 The `is_positive` boolean is still in the database for engine flexibility, but the UI never exposes it confusingly to users.
 
@@ -335,7 +335,7 @@ pip install -r requirements.txt
 Key packages used:
 ```
 django
-mysqlclient
+psycopg2-binary
 python-dotenv
 google-generativeai
 ```
@@ -363,7 +363,7 @@ psycopg2-binary
 
 > **Note:** If you don't have a Gemini API key the system still works — it falls back to generic questions automatically.
 
-> **SQLite alternative:** To skip MySQL setup during development, change `settings.py`:
+>  **SQLite alternative:** To skip PostgreSQL setup during development, change `settings.py`:
 > ```python
 > DATABASES = {
 >   'default': dj_database_url.config(
@@ -374,13 +374,13 @@ psycopg2-binary
 
 ---
 
-### Step 5 — Create the MySQL Database
+
+
+### Step 5 — Create the PostgreSQL Database
 
 ```sql
-CREATE DATABASE decision_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE decision_system;
 ```
-
----
 
 ### Step 6 — Run Migrations
 
