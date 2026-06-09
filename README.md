@@ -179,12 +179,23 @@ Trade-off: Django is heavier. For a pure API project Flask would be cleaner. But
 
 ---
 
-### MySQL over NoSQL
+### PostgreSQL over NoSQL
 
-The data is strongly relational — a Decision has Options, Options have Scores, Scores reference Criteria, and Criteria belong to SubCategories. All of that benefits from foreign keys and JOIN queries. A document store would require me to manage those relationships in application code, which is worse.
+The data is strongly relational — a Decision has Options, Options 
+have Scores, Scores reference Criteria, and Criteria belong to 
+SubCategories. All of that benefits from foreign keys and JOIN 
+queries. A document store would require me to manage those 
+relationships in application code, which is worse.
 
-Trade-off: SQL requires defined schemas and migrations. This caused some pain during early development when I was changing models often — I ended up resetting migrations a few times. A document store would have been more flexible during that phase.
+PostgreSQL specifically also gives strong ACID guarantees, which 
+matters here because saving a decision result involves multiple 
+related writes — options, scores, and the result record — that 
+all need to succeed or fail together.
 
+Trade-off: PostgreSQL requires defined schemas and migrations. 
+This caused some pain during early development when I was changing 
+models often — I ended up resetting migrations a few times. A 
+document store would have been more flexible during that phase.
 ---
 
 ### Criteria in the Database, Not Code
@@ -287,7 +298,7 @@ Where:
 ### Prerequisites
 
 - Python 3.11+
-- MySQL 8.0+ (or SQLite for a quick dev setup — see note below)
+- PostgreSQL 14+
 - Git
 
 ---
@@ -338,15 +349,15 @@ Create a `.env` file in the project root:
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 SECRET_KEY=your_django_secret_key_here
-DEBUG=True
-DATABASE_URL=mysql://root:yourpassword@localhost:3306/db_name
+DEBUG=True  # Set to False in production
+DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/db_name
 ```
 
 
 
-Also add `mysqlclient` back to `requirements.txt` since you need it for local MySQL:
+Ensure `psycopg2-binary` is in your `requirements.txt` as the 
+PostgreSQL database driver:
 ```
-mysqlclient
 psycopg2-binary
 ```
 
