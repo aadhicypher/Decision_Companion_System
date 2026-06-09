@@ -92,7 +92,7 @@ Instead of ranking, users assign a *percentage* to each criterion. These percent
 
 **Formula:**
 ```
-Final Score(option) = Σ [ (score / 5) × (priority / total_priority) ]
+Final Score(option) = Σ [ (score / 100) × (priority / total_priority) ]
 ```
 
 Both the score and the weight get normalized before being multiplied — so the final score is always between 0 and 1 no matter how many criteria there are. This means different decisions with different numbers of questions produce comparable scores.
@@ -152,7 +152,7 @@ Originally weights were stored as floats like `1.0`, `1.5`. Changed to integers 
 ┌────────────────▼────────────────────────┐
 │         DECISION ENGINE                 │
 │  Deterministic weighted scoring         │
-│  Score(option) = Σ[(s/5)×(p/100)]      │
+│  Score(option) = Σ[(s/100)×(p/100)]      │
 │  Priority dominance check               │
 │  Conflict resolution rule               │
 │  Result stored in MySQL                 │
@@ -596,4 +596,4 @@ Full details of all prompts, what was accepted, rejected, and modified are in `R
 
 ---
 
-*Decision Companion System — Vonnue Assignment — March 2026*
+
