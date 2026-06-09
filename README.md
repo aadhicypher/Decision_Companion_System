@@ -423,7 +423,7 @@ python manage.py runserver
 
 1. **Register / Log In** — create a user account
 2. **Create a Decision** — select a category and subcategory, enter the options you want to compare
-3. **Score Options** — rate each option on each criterion from 1 (poor) to 5 (excellent)
+3. **Score Options** — rate each option on each criterion from 1 (poor) to 100(excellent)
 4. **Adjust Priorities** — set how important each criterion is as a percentage (auto-normalized)
 5. **Add Custom Criteria** — optionally add criteria not in the template, for this session only
 6. **Finalize** — system computes the ranking, saves the result, and calls Gemini for an explanation
